@@ -1,4 +1,4 @@
-name: Maven CI with Allure Report
+name: FakeStore API CI with Allure Report
 
 on:
   # Trigger the workflow on pushes to these branches
@@ -32,7 +32,7 @@ jobs:
         distribution: 'temurin' # Specify JDK distribution
         cache: maven # Cache Maven dependencies for faster builds
 
-    - name: Run Maven tests and generate Allure results
+    - name: Run FakeStore API tests and generate Allure results
       # Execute Maven tests and configure Allure listener for reporting
       run: mvn test -Dsurefire.testng.properties.listeners=io.qameta.allure.testng.AllureTestNg
 
