@@ -1,0 +1,48 @@
+name: Maven CI with Allure Report
+
+on:
+  # Trigger the workflow on pushes to these branches
+  push:
+    branches:
+      - main
+      - master
+  # Also trigger the workflow on pull requests targeting these branches
+  pull_request:
+    branches:
+      - main
+      - master
+
+# Define the jobs to be executed in this workflow
+jobs:
+  build:
+    # Specify the runner environment for this job (e.g., Ubuntu Linux)
+    runs-on: ubuntu-latest
+
+    # Define the sequence of steps for this job
+    steps:
+    - name: Checkout code
+      # Action to get your repository's code onto the runner
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      # Action to set up the Java Development Kit
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11' # Specify Java version
+        distribution: 'temurin' # Specify JDK distribution
+        cache: maven # Cache Maven dependencies for faster builds
+
+    - name: Run Maven tests and generate Allure results
+      # Execute Maven tests and configure Allure listener for reporting
+      run: mvn test -Dsurefire.testng.properties.listeners=io.qameta.allure.testng.AllureTestNg
+
+    - name: Generate Allure Report
+      # Generate the full HTML Allure Report from the test results
+      run: mvn allure:report
+
+    - name: Upload Allure report artifact
+      # Upload the generated HTML report as a downloadable artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report # Name of the artifact
+        path: target/site/allure-maven/ # Path to the generated Allure report
