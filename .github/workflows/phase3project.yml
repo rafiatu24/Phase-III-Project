@@ -28,7 +28,7 @@ jobs:
       # Action to set up the Java Development Kit
       uses: actions/setup-java@v4
       with:
-        java-version: '15' # Specify Java version
+        java-version: '17' # Specify Java version
         distribution: 'temurin' # Specify JDK distribution
         cache: maven # Cache Maven dependencies for faster builds
 
